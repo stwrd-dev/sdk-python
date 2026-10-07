@@ -1,0 +1,153 @@
+[project]
+name = "stwrd-auth"
+version = "0.1.0"
+description = "Python SDK for stwrd: OpenID Connect sign-in, server-side sessions, FastAPI integration and webhook verification"
+readme = "README.md"
+requires-python = ">=3.12"
+# SPDX license expression (PEP 639). The `License :: OSI Approved :: MIT License`
+# classifier is deliberately not added: next to this form, PyPI treats the two
+# as conflicting metadata and rejects the upload.
+license = "MIT"
+authors = [
+    { name = "stwrd" },
+]
+keywords = [
+    "stwrd",
+    "authentication",
+    "identity",
+    "oidc",
+    "openid-connect",
+    "oauth2",
+    "fastapi",
+    "starlette",
+    "bff",
+    "sessions",
+    "webhooks",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Framework :: AsyncIO",
+    "Framework :: FastAPI",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Session",
+    "Topic :: Security",
+    "Typing :: Typed",
+]
+dependencies = [
+    # No protocol or crypto primitives are implemented here: `httpx` is the HTTP
+    # transport (and what makes the e2e testable without sockets, through
+    # `ASGITransport`); `joserfc` is the same JOSE implementation the IdP signs
+    # with — here it is used only to *verify*.
+    "httpx>=0.27",
+    "joserfc>=1.0",
+]
+
+[project.urls]
+Homepage = "https://stwrd.dev"
+# `Documentation` is the webhook contract, which ships inside the package
+# (`docs/webhooks.md`) and therefore lives in the public repository.
+Documentation = "https://github.com/stwrd-dev/sdk-python/blob/main/docs/webhooks.md"
+# These point at the public repository of this SDK: a link the reader cannot
+# open is a 404 on the PyPI page. The CHANGELOG sits at the root there.
+# `Repository` is the source link (PyPI shows it with the source icon).
+Repository = "https://github.com/stwrd-dev/sdk-python"
+Issues = "https://github.com/stwrd-dev/sdk-python/issues"
+Changelog = "https://github.com/stwrd-dev/sdk-python/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+# `stwrd.fastapi` is an extra re-exported from the package: `auth_router`, the
+# dependencies and `protect()` are FastAPI/Starlette, and an app that only uses
+# the raw OIDC client has no reason to install them.
+fastapi = [
+    "fastapi>=0.115",
+    "starlette>=0.40",
+    # `sign-out` and `back-channel` read `application/x-www-form-urlencoded`
+    # bodies (`request.form()`) — Starlette needs this to parse them.
+    "python-multipart>=0.0.17",
+]
+# `stwrd.postgres.PostgresSessionStore`: a shared session store for several
+# workers. The pool is injected, so psycopg stays optional.
+postgres = [
+    "psycopg[pool]>=3.2",
+]
+dev = [
+    "psycopg[binary,pool]>=3.2",
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    # The suite runs with `-n auto`. Without xdist declared here, `pytest` aborts
+    # with "unrecognized arguments: -n".
+    "pytest-xdist>=3.6",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "fastapi>=0.115",
+    "starlette>=0.40",
+    "python-multipart>=0.0.17",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# The distribution is `stwrd-auth` (what `pip install` takes); the import package
+# stays `stwrd`, hence the explicit list.
+[tool.hatch.build.targets.wheel]
+packages = ["stwrd"]
+
+# The source distribution is an allowlist: the package, its tests and tooling,
+# and the documents, including the security policy (the wheel carries none of
+# it). `tests/monorepo` holds checks that need files outside this package and
+# is never published.
+[tool.hatch.build.targets.sdist]
+include = [
+    "/stwrd",
+    "/tests",
+    "/scripts",
+    "/docs",
+    "/README.md",
+    "/CHANGELOG.md",
+    "/LICENSE",
+    "/SECURITY.md",
+    "/pyproject.toml",
+]
+exclude = ["/tests/monorepo"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 100
+# Emitted by scripts/generate_management.py; style is the generator's.
+extend-exclude = ["stwrd/management_generated.py"]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "W"]
+
+[tool.ruff.lint.flake8-bugbear]
+# `stwrd.fastapi`'s dependency factories return the actual FastAPI
+# dependency (`Depends(current_user(stwrd))`) — a fresh call per route
+# declaration, not a mutable default reused across requests, which is what
+# B008 exists to catch. Same idea FastAPI itself needs for `Depends()`.
+extend-immutable-calls = [
+    "fastapi.Depends",
+    "stwrd.fastapi.current_user",
+    "stwrd.fastapi.optional_user",
+    "stwrd.fastapi.require_auth",
+    "stwrd.fastapi.api_mode",
+    "stwrd.fastapi.require_role",
+    "stwrd.fastapi.require_org",
+    "stwrd.fastapi.require_permission",
+]
+
+[tool.mypy]
+python_version = "3.12"
+warn_unused_ignores = true
+ignore_missing_imports = true
