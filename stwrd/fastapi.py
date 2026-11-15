@@ -1,6 +1,6 @@
 """`stwrd.fastapi` — the FastAPI/Starlette extra.
 
-Installed with the `fastapi` extra (`pip install "stwrd-auth[fastapi]"`).
+Installed with the `fastapi` extra (`pip install "stwrd[fastapi]"`).
 Provides the `/auth/*` routes under `stwrd.config.prefix` (`auth_router`), the
 dependency factories that guard an app's own routes, and the opt-in
 fail-closed `protect()`.

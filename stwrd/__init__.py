@@ -1,6 +1,6 @@
 """stwrd — Python SDK for the stwrd identity provider (BFF profile).
 
-Installed as `stwrd-auth`, imported as `stwrd`.
+Installed as `stwrd`, imported as `stwrd`.
 """
 
 from __future__ import annotations

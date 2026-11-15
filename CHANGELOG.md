@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.
 and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Before 1.0, minor releases may contain breaking changes.
 
+## [0.1.1] - 2026-11-15
+
+### Changed
+
+- Renamed distribution from stwrd-auth to stwrd; first release via trusted publishing.
+  The import name (`stwrd`) is unchanged.
+
 ## [0.1.0] - Unreleased
 
 Initial release.

@@ -6,8 +6,8 @@ URLs you registered for the application. The scheme is
 [Standard Webhooks](https://www.standardwebhooks.com/), the same one Svix,
 Clerk and Resend use: a receiver written against that specification, or any
 existing library for it, verifies a stwrd event without an adapter. This page
-is what you need to write a receiver yourself. The SDKs (`stwrd-auth` for
-Python, `@stwrd-auth/node` for Node) already do all of it in `verify_webhook` /
+is what you need to write a receiver yourself. The SDKs (`stwrd` for
+Python, `@stwrd/node` for Node) already do all of it in `verify_webhook` /
 `verifyWebhook`.
 
 ## Using the SDK
