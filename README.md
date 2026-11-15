@@ -1,8 +1,8 @@
-# stwrd-auth
+# stwrd
 
-[![PyPI version](https://img.shields.io/pypi/v/stwrd-auth)](https://pypi.org/project/stwrd-auth/)
-[![Python versions](https://img.shields.io/pypi/pyversions/stwrd-auth)](https://pypi.org/project/stwrd-auth/)
-[![License: MIT](https://img.shields.io/pypi/l/stwrd-auth)](https://github.com/stwrd-dev/sdk-python/blob/main/LICENSE)
+[![PyPI version](https://img.shields.io/pypi/v/stwrd)](https://pypi.org/project/stwrd/)
+[![Python versions](https://img.shields.io/pypi/pyversions/stwrd)](https://pypi.org/project/stwrd/)
+[![License: MIT](https://img.shields.io/pypi/l/stwrd)](https://github.com/stwrd-dev/sdk-python/blob/main/LICENSE)
 ![Types included](https://img.shields.io/badge/types-included-blue)
 
 Python SDK for [stwrd](https://stwrd.dev): OpenID Connect sign-in, server-side
@@ -15,20 +15,20 @@ cookie; access, refresh and ID tokens never leave your process. The
 framework-independent parts (OIDC client, session store, webhook verification,
 Management API client) work without FastAPI.
 
-This is the Python counterpart of `@stwrd-auth/node`: same routes, same
+This is the Python counterpart of `@stwrd/node`: same routes, same
 responses, same `/auth/session` JSON and same environment variables. The
-browser client is `@stwrd-auth/react`.
+browser client is `@stwrd/react`.
 
 ## Installation
 
-The package is installed as `stwrd-auth` and imported as `stwrd`.
+The package is installed as `stwrd` and imported as `stwrd`.
 
 ```bash
 # with uv
-uv add "stwrd-auth[fastapi]"
+uv add "stwrd[fastapi]"
 
 # with pip
-pip install "stwrd-auth[fastapi]"
+pip install "stwrd[fastapi]"
 ```
 
 | Extra | Adds | Needed for |
@@ -92,7 +92,7 @@ async def me(user: StwrdUser = Depends(current_user(stwrd))):
 
 Run it with `uvicorn main:app`. Opening `/auth/sign-in?return_to=/me` redirects
 to stwrd, and `/auth/callback` completes the sign-in and returns the person to
-`/me`. `GET /auth/session` returns the JSON that `@stwrd-auth/react` consumes:
+`/me`. `GET /auth/session` returns the JSON that `@stwrd/react` consumes:
 
 ```json
 {"authenticated": true,
@@ -193,7 +193,7 @@ returns the current `StwrdSession` or `None`. See the [API reference](#api-refer
 ## Configuration
 
 `Stwrd.from_env()` and `StwrdConfig.from_env()` read these variables. The same
-names are read by `@stwrd-auth/node`, so an app can switch languages without
+names are read by `@stwrd/node`, so an app can switch languages without
 touching its `.env`. Every setting is also a field of `StwrdConfig`, and
 keyword arguments to `from_env()` override the environment.
 
@@ -522,7 +522,7 @@ Common problems:
 The package follows [Semantic Versioning](https://semver.org/). Before 1.0, minor
 releases may contain breaking changes; they are listed in the
 [changelog](https://github.com/stwrd-dev/sdk-python/blob/main/CHANGELOG.md).
-Pin an exact or compatible-release version, for example `stwrd-auth~=0.1.0`.
+Pin an exact or compatible-release version, for example `stwrd~=0.1.1`.
 
 ## License
 

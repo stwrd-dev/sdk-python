@@ -32,7 +32,7 @@ DEFAULT_TRANSACTION_TTL_S = 600
 COOKIE_SECRET_MIN_LEN = 32
 
 # `STWRD_*` names the SDK reads from the environment. Deliberately the same
-# names as `@stwrd-auth/node`, so an app can switch languages without touching
+# names as `@stwrd/node`, so an app can switch languages without touching
 # its `.env`.
 REQUIRED_ENV = ("ISSUER", "CLIENT_ID", "CLIENT_SECRET", "BASE_URL", "COOKIE_SECRET")
 
@@ -157,7 +157,7 @@ class StwrdConfig:
         """Build from the environment, `STWRD_*` unless `env_prefix` says
         otherwise. `overrides` wins over the environment, which wins over the
         dataclass defaults — the same precedence `from_env` gives in
-        `@stwrd-auth/node`, so porting an app between the two SDKs does not also
+        `@stwrd/node`, so porting an app between the two SDKs does not also
         require reordering how a value gets picked.
         """
         import os

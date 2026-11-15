@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-While the version is below 1.0, only the latest minor release of `stwrd-auth` receives security fixes. Upgrade to it before reporting a problem you found in an older release.
+While the version is below 1.0, only the latest minor release of `stwrd` receives security fixes. Upgrade to it before reporting a problem you found in an older release.
 
 ## Reporting a vulnerability
 
@@ -15,6 +15,6 @@ Include the version, what an attacker can do, and the steps or code that reprodu
 
 ## Scope
 
-This policy covers the `stwrd-auth` package published from this repository.
+This policy covers the `stwrd` package published from this repository.
 
 The hosted stwrd service is out of scope. To report a problem with it, use the contact published at [https://stwrd.dev](https://stwrd.dev).
